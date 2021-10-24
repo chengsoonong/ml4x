@@ -1,6 +1,6 @@
 # Machine Learning for Computational Biology
 
-## Representing sequences and graphs
+## Representing sequences
 
 Introduction to machine learning, and why we need to find a numerical representation.
 
