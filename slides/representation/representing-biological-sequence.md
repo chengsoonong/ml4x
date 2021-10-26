@@ -2,7 +2,7 @@
 marp: true
 title: Representing biological sequences
 author: Cheng Soon Ong
-theme: default
+theme: gaia
 class: invert
 ---
 
@@ -10,10 +10,10 @@ class: invert
 .container{
     display: flex;
 }
-.colleft{
+.col60{
     flex: 60%;
 }
-.colright{
+.col40{
     flex: 40%;
 }
 .col{
@@ -30,7 +30,7 @@ Cheng Soon Ong
 
 # Introduction to machine learning
 
-## and why we need to find a numerical representation.
+### ... and why we need to find a numerical representation.
 
 ---
 
@@ -79,7 +79,7 @@ $$\mathbf{f} : \mathcal{X} \to \mathcal{Y}$$
 
 <div class="container">
 
-<div class="colleft">
+<div class="col60">
 
 - $\mathcal{X}$ = age, $\mathcal{Y}$ = salary
 - Data from example table (training data)
@@ -87,7 +87,7 @@ $$\mathbf{f} : \mathcal{X} \to \mathcal{Y}$$
 
 </div>
 
-<div class="colright">
+<div class="col40">
 
 ![Predict salary from age](figs-book/linear_regression_testpoint.png)
 
@@ -103,7 +103,7 @@ $$\mathbf{f} : \mathcal{X} \to \mathcal{Y}$$
 
 <div class="container">
 
-<div class="colleft">
+<div class="col60">
 
 - Supervised
   * Regression
@@ -114,7 +114,7 @@ $$\mathbf{f} : \mathcal{X} \to \mathcal{Y}$$
 
 </div>
 
-<div class="colright">
+<div class="col40">
 
 ![height:500px](figs-book/cover.png)
 
