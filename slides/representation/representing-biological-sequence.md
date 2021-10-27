@@ -25,6 +25,10 @@ class: invert
 .cite{
     color: dodgerblue;
 }
+.footnote{
+    color: dodgerblue;
+    font-size: 70%;
+}
 .dna{
     color: lightseagreen;
     font-family: "Times New Roman", Times, serif;
@@ -39,6 +43,9 @@ class: invert
 - <span class="highlight">highlight</span>
 - <span class="cite">cite</span>
 - <span class="dna">dna</span>
+- <span class="footnote">footnote</span>
+
+
 
 
 ---
@@ -272,8 +279,7 @@ Eukaroyte, Bacteria, Archea (discovered in 1970s!)
 - An acceptor splice site is centered at <span class="dna">AG</span>
 
 ![width:1000px](figs-bio/acceptor2.jpg)
-<pre> intron                                exon</pre>
-
+&emsp; &emsp; intron &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp;  exon
 - But not all <span class="dna">AG</span> locations are splice sites
 
 ---
@@ -286,7 +292,9 @@ Eukaroyte, Bacteria, Archea (discovered in 1970s!)
 - exons code for proteins, look for codons
 - Certain motifs are located near the splice site
 
-https://youtu.be/aVgwr0QpYNE
+A short video describing splicing https://youtu.be/aVgwr0QpYNE
+
+
 
 ---
 
@@ -301,6 +309,126 @@ https://youtu.be/aVgwr0QpYNE
 | $x_3$ | 0.4 | 0.3 | 0 | 1 | ... | -1 |
 | $\vdots$ | $\vdots$ | $\vdots$ | $\vdots$ | $\vdots$ | $\vdots$ | $\vdots$ |
 
+---
+
+<!-- _class: lead -->
+
+# The spectrum of a sequence
+
+---
+
+# What is the distribution of A,C,G,T?
+
+show some bar plots of relative abundance
+
+---
+
+# DNA comes in pairs
+
+- A pairs with T and G pairs with C
+- Look at GC content of introns vs exons
+
+---
+
+# What about the distribution of AA, AC, AG, AT, CA, CC, ...
+
+show relative abundance
+
+---
+
+# k-mer
+
+Use the counts of substrings as a feature
+
+---
+
+# How many substrings are there?
+### (spoiler: there are a lot of them!)
+
+---
+
+# How to count the number of occurances
+
+- hashing
+- <span class="cite">Murray et. al. kWIP: The k-mer weighted inner product, a de novo estimator of genetic similarity, PLoS Computational Biology, 2017</span>
+
+---
+
+# Limiting the size of the index
+
+- hashing
+- Bloom filters
+- locality sensitive hashing
+- RACE sketch
+- see survey paper
+
+---
+
+<!-- _class: lead -->
+# Comparing two sequences
+
+---
+
+# Inner product
+
+See Chapter 3 of [mml-book.com](https://mml-book.com)
+
+---
+
+# Kernels
+
+Sometimes we can calculate the similarity faster than we can create the feature vectors
+
+Asa Ben-Hur, Cheng Soon Ong, Sören Sonnenburg, Bernhard Schölkopf, and Gunnar Rätsch. Support vector machines and kernels for computational biology. PLoS Computational Biology 4(10), e1000173, 2008.
+
+
+---
+
+# Spectrum kernel
+
+- weighted sum of kernels is a kernel
+- spectrum
+- mixed spectrum
+
+---
+
+# The importance of position
+
+Position weight matrices
+
+---
+
+# Weighted degree kernel
+
+Consider substrings at each positions separately
+
+---
+
+# Distances vs inner products
+
+- norm
+- $||x - y||$
+
+---
+
+# Convert distances to kernels
+
+- exp
+
+---
+
+<!-- _class: lead -->
+# Natural language models
+
+---
+
+# k-mers and n-grams
+
+---
+
+# Embed = find a feature vector
+
+Some papers about language models applied to DNA
 
 ---
 
@@ -310,13 +438,8 @@ https://youtu.be/aVgwr0QpYNE
 - DNA and RNA sequences are a 4 letter alphabet
 - Protein sequences are a 20 letter alphabet
 - Use knowledge to design features
-- kmers and spectrum kernels
 - counting and hashing
+- kmers and spectrum kernels
 - language models
 
----
 
-# Opportunities and challenges
-- graphs, geometric deep learning
-- Hard and soft constraints
-- Really need causal graphs, and dynamical systems
