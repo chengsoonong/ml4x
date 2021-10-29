@@ -51,42 +51,49 @@ class: invert
 ---
 <!-- _class: lead -->
 
-# The sequencing revolution
+# Opportunities and challenges in the sequencing revolution
 
 <span class="highlight">Cheng Soon</span> Ong
 
 ---
 
-<!-- _class: lead -->
+The bottleneck in genome sequencing is no longer data generation 
+-- the computational challenges around data analysis, display and integration are now rate limiting.
 
-# A glimpse of genomics
+<div class="highlight">
+    New approaches and methods are required to meet these challenges.
+</div>
+
+![bg right:20% 80%](figs-bio/genomics-computation-challenge.jpg)
+
+<div class="cite">
+    Green, Guyer and National Human Genome Research Institute
+    Charting a course for genomic medicine from base pairs to bedside, Nature 2011.
+</div>
+
 
 ---
 
+<!-- _class: lead -->
+
+# A glimpse of molecular biology
+
+---
 # Central dogma
 
-<div class="container">
 
-<div class="colbig">
-
-  - **DNA** written 5' to 3'.
-    e.g. <span class="dna">AATCGAAGTTA</span>
-  - **RNA** T $\Rightarrow$ U
-      e.g. <span class="dna">AAUCGAAGUUA</span>
-  - **Amino acid** 
-    - 3 letters of RNA (codon) $\Rightarrow$ amino acid,
-    - 20 letter alphabet.
+- **DNA** written 5' to 3'.
+  e.g. <span class="dna">AATCGAAGTTA</span>
+- **RNA** T $\Rightarrow$ U
+    e.g. <span class="dna">AAUCGAAGUUA</span>
+- **Amino acid** 
+  - 3 letters of RNA (codon) $\Rightarrow$ amino acid,
+  - 20 letter alphabet.
 
 <span class="cite">Lewin, Genes</span>
 
-</div>
 
-<div class="colsmall">
-
-![width:500px](figs-bio/central-dogma.png)
-
-</div>
-</div>
+![bg right:50% 100%](figs-bio/central-dogma.png)
 
 ---
 <!-- _class: lead -->
@@ -166,7 +173,7 @@ class: invert
 ---
 
 <!-- _class: lead -->
-DNA sequences: 6 billion reads, each 150 bases
+DNA sequences: 6 billion reads, each 150 bases, ~$\frac{1}{2}$TB
 
 # So what?
 

@@ -135,11 +135,11 @@ $$\mathbf{f} : \mathcal{X} \to \mathcal{Y}$$
 <div class="colbig">
 
 - Supervised
-  * Regression
-  * Binary classification
+    * Regression
+    * Binary classification
 - Unsupervised
-  * Density estimation
-  * Dimensionality reduction
+    * Density estimation
+    * Dimensionality reduction
 
 Legal PDF at [mml-book.com](mml-book.com)
 
@@ -249,28 +249,20 @@ Eukaroyte, Bacteria, Archea (discovered in 1970s!)
 
 # Central dogma
 
-<div class="container">
 
-<div class="colbig">
-
-  - **DNA** written 5' to 3'.
-    e.g. <span class="dna">AATCGAAGTTA</span>
-  - **RNA** T $\Rightarrow$ U
-      e.g. <span class="dna">AAUCGAAGUUA</span>
-  - **Amino acid** 
-    - 3 letters of RNA (codon) $\Rightarrow$ amino acid,
-    - 20 letter alphabet.
+- **DNA** written 5' to 3'.
+  e.g. <span class="dna">AATCGAAGTTA</span>
+- **RNA** T $\Rightarrow$ U
+    e.g. <span class="dna">AAUCGAAGUUA</span>
+- **Amino acid** 
+  - 3 letters of RNA (codon) $\Rightarrow$ amino acid,
+  - 20 letter alphabet.
 
 <span class="cite">Lewin, Genes</span>
 
-</div>
 
-<div class="colsmall">
+![bg right:50% 100%](figs-bio/central-dogma.png)
 
-![width:500px](figs-bio/central-dogma.png)
-
-</div>
-</div>
 
 ---
 
