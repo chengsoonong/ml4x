@@ -35,20 +35,12 @@ class: invert
     font-weight: bold;
     font-size: 120%;
 }
+.small{
+    font-size: 80%;
+}
 </style>
 
 
-# test slide
-
-- <span class="highlight">highlight</span>
-- <span class="cite">cite</span>
-- <span class="dna">dna</span>
-- <span class="footnote">footnote</span>
-
-
-
-
----
 <!-- _class: lead -->
 
 # Representing biological sequences
@@ -157,13 +149,13 @@ Legal PDF at [mml-book.com](mml-book.com)
 
 # Representing biological sequences
 
-## How to convert
+#### How to convert
 
 <div class="dna">
 TTAGCCTCCAATGCCAAAAAATGGAGGTTAGGAGT
 </div>
 
-## to
+#### to
 
 Gender ID | Degree | Latitude  |  Longitude  |  Age | Annual Salary |
 |:-------:|:-----------:|---------------:|------------:|-----:|--------------:|
@@ -272,6 +264,7 @@ Eukaroyte, Bacteria, Archea (discovered in 1970s!)
 
 ![width:1000px](figs-bio/acceptor2.jpg)
 &emsp; &emsp; intron &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp;  exon
+
 - But not all <span class="dna">AG</span> locations are splice sites
 
 ---
@@ -309,28 +302,39 @@ A short video describing splicing https://youtu.be/aVgwr0QpYNE
 
 ---
 
-# What is the distribution of A,C,G,T?
+# What is the distribution of GC?
 
-show some bar plots of relative abundance
-
----
-
-# DNA comes in pairs
-
-- A pairs with T and G pairs with C
+- <span class="dna">A</span> pairs with <span class="dna">T</span> and <span class="dna">G</span> pairs with <span class="dna">C</span>
 - Look at GC content of introns vs exons
 
----
 
-# What about the distribution of AA, AC, AG, AT, CA, CC, ...
+![height:200px](figs-bio/jukes-cantor-dna-substitution.png) &emsp; &emsp; &emsp; &emsp; ![height:200px](figs-bio/gc-content-exon-intron.png)
 
-show relative abundance
+<div class="cite">
+
+Erickson, The Jukes-Cantor Model of Molecular Evolution, 2010
+Amit et. al. Differential GC content between exons and intron .., 2012
+
+</div>
 
 ---
 
 # k-mer
 
 Use the counts of substrings as a feature
+
+- **Counts of 2-mers** of <span class="dna">GATTACAAAAA</span>
+    -  Maintain a counter for each possible 2-mer
+    -  Take a sliding window of length 2 along the read file
+    -  Add 1 to the counter.
+
+<div class="small">
+
+| 2-mer | AA | AC | AG | AT | CA | CC | CG | CT | GA | GC | GG | GT | TA | TC | TG | TT |
+|:--|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+| count | 3 | 1 |  | 1 | 1 |  |  |  | 1 |  |  |  | 1 |  |  | 1 |
+
+</div>
 
 ---
 
@@ -339,88 +343,394 @@ Use the counts of substrings as a feature
 
 ---
 
-# How to count the number of occurances
+# On the importance of coordinates (I)
 
-- hashing
-- <span class="cite">Murray et. al. kWIP: The k-mer weighted inner product, a de novo estimator of genetic similarity, PLoS Computational Biology, 2017</span>
+### Basis functions
+
+- Consider a vector space $V$
+- Let $\mathcal{A} = \{x_1, \ldots, x_k\}$ be a set of vectors in $V$
+- The set $\mathcal{A}$ is a generating set if any vector $v\in V$ is a linear combination of $x_1, \ldots, x_k$
+- If the generating set $\mathcal{A}$ is the smallest one, then it is a <span class="highlight">basis</span>.
+- (Note we usually intuitively think of orthonormal basis)
+
+See Section 2.6 of mml-book.com
 
 ---
 
-# Limiting the size of the index
+# On the importance of coordinates (II)
 
-- hashing
-- Bloom filters
-- locality sensitive hashing
-- RACE sketch
-- see survey paper
+- **Mapping**
+    - Longitude and latitude, for locations on Earth
+    - Right ascension and declination, for looking at the sky
+- **Image pixels**
+    - Object detection and semantic segmentation
+    - Simultaneous localization and mapping
+
+---
+
+# Coordinates in genomes
+
+- Due to the way DNA/RNA sequencing works, we do not have a "standard" coordinate system
+- Perform sequence alignment to find where a read occured
+
+---
+
+# Another reason for k-mers...
+## is to avoid performing sequence alignment
+
+https://en.wikipedia.org/wiki/Alignment-free_sequence_analysis
+
+
 
 ---
 
 <!-- _class: lead -->
 # Comparing two sequences
 
+
+---
+
+# The main characters (k-mer approach)
+- **Genomic reads file**
+    The output of high throughput sequencing
+- **k-mer counts**
+    The number of times a particular subsequence appears in the reads
+- **Kernel matrix**
+    - Compute similarity between genomes by similarity between its reads
+    - Compute similarity between read files by the inner product between k-mer counts
+
+---
+
+# Toy example: <span class="dna">GATTACAAAAA</span>
+
+- **Counts of 2-mers**
+    -  Maintain a counter for each possible 2-mer
+    -  Take a sliding window of length 2 along the read file
+    -  Add 1 to the counter.
+
+<div class="small">
+
+| 2-mer | AA | AC | AG | AT | CA | CC | CG | CT | GA | GC | GG | GT | TA | TC | TG | TT |
+|:--|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+| count | 3 | 1 |  | 1 | 1 |  |  |  | 1 |  |  |  | 1 |  |  | 1 |
+
+</div>
+
+---
+
+# Toy example: <span class="dna">GATTACAAAAA</span>
+
+<div class="small">
+
+| 2-mer | AA | AC | AG | AT | CA | CC | CG | CT | GA | GC | GG | GT | TA | TC | TG | TT |
+|:--|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+| count | 3 | 1 |  | 1 | 1 |  |  |  | 1 |  |  |  | 1 |  |  | 1 |
+
+</div>
+
+- **Observations**
+    -  There are $4^2 = 16$ possible index values
+    -  There are many zeros in the k-mer counts
+
+---
+
+# Similarity between two counts
+
+- **First read file** <span class="dna">GATTACAAAAA</span>
+
+<div class="small">
+
+| 2-mer | AA | AC | AG | AT | CA | CC | CG | CT | GA | GC | GG | GT | TA | TC | TG | TT |
+|:--|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+| count | 3 | 1 |  | 1 | 1 |  |  |  | 1 |  |  |  | 1 |  |  | 1 |
+
+</div>
+
+- **Second read file** <span class="dna">GATTACAAAAA</span><span class="highlight">CC</span>
+
+<div class="small">
+
+| 2-mer | AA | AC | AG | AT | CA | CC | CG | CT | GA | GC | GG | GT | TA | TC | TG | TT |
+|:--|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+| count | 3 | <span class="highlight">2</span> |  | 1 | 1 | <span class="highlight">1</span> |  |  | 1 |  |  |  | 1 |  |  | 1 |
+
+</div>
+
+---
+
+# Similarity between two counts
+
+- **Similarity = inner product**
+    -  Use the same indices for both counts
+    -  Compute the standard inner product between two vectors
+    -  Only need to consider indices where both are non-zero
+
+---
+
+# Counting k-mers, big k
+
+- **In memory representation** <span class="dna">GATTACAAAAA</span>
+    We would like to use 21-mers. Cannot fit $4^{21}$ in memory $\approx$ 1TB.
+
+<div class="small">
+
+| 2-mer | AA | AC | AG | AT | CA | CC | CG | CT | GA | GC | GG | GT | TA | TC | TG | TT |
+|:--|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+|index| 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 |
+| count | 3 | 1 |  | 1 | 1 |  |  |  | 1 |  |  |  | 1 |  |  | 1 |
+
+</div>
+
+---
+
+<div class="small">
+
+| 2-mer | AA | AC | AG | AT | CA | CC | CG | CT | GA | GC | GG | GT | TA | TC | TG | TT |
+|:--|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+|index| 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 |
+| count | 3 | 1 |  | 1 | 1 |  |  |  | 1 |  |  |  | 1 |  |  | 1 |
+
+</div>
+
+- **(hashing) Use a smaller array and hope things work**
+
+| | ?? | ?? | ?? | ?? | ?? | ?? | ?? |
+|:--|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+| index | 1 | 2 | 3 | 4 | 5 | 6 | 7 |
+| count | 3 | 1 |  | 1 | 1 |  |  |
+| | | 1 | | | | 1 |
+| | | 1 |
+
+---
+
+#### (hashing) Use a smaller array and hope things work
+
+| | ?? | ?? | ?? | ?? | ?? | ?? | ?? |
+|:--|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+| index | 1 | 2 | 3 | 4 | 5 | 6 | 7 |
+| count | 3 | 3 |  | 1 | 1 | 1|  |
+
+- The example here used modulo arithmetic (a hash function)
+- Perform the inner product using the smaller vector
+- Count for <span class="dna">TA</span> (index 6 = 13 mod 7) is fine
+- Count in index number 2 is not fine <span class="highlight">(collision)</span>
+
+---
+
+# kWIP: k-mer weighted inner product
+
+-  A hashed based k-mer counter and its inner product
+-  Weighted inner product improves performance,\\ especially for low coverage
+-  kWIP more accurate than Mash
+-  Improves replicate clustering (rice)
+-  Discovers population structure (Chalmydomonas)
+-  Recovers metagenome relatedness (microbiome)
+
+<span class="cite">Murray et. al. kWIP: The k-mer weighted inner product, a de novo estimator of genetic similarity, PLoS Computational Biology, 2017</span>
+
+---
+
+# PCA of Chlamydomonas
+
+![height:380px](figs-bio/chlamy-pca.png)
+
+(left) from raw reads using kWIP, and (right) long pipeline using SNPs from <span class="cite">Zheng et. al. Bioinformatics 2012</span>
+
+---
+
+# How do we reduce collisions? (I)
+
+- Choose a good hash function
+    - Modulo arithmetic has many collisions
+    - Currently using murmurhash
+    https://github.com/aappleby/smhasher
+- Use more than one hash function
+
+---
+
+# How do we reduce collisions? (II)
+
+- hashing
+- Bloom filters
+- locality sensitive hashing
+- HyperLogLog
+- CountMin sketch
+- RACE sketch
+
+<span class="cite">Marçais et. al. Sketching and Sublinear Data Struct. in Gen., 2019</span>
+<span class="cite">Leo Elworth et. al. To Petabytes and beyond, 2020</span>
+
+---
+
+
+<!-- _class: lead -->
+# Inner products and kernels
 ---
 
 # Inner product
 
-See Chapter 3 of [mml-book.com](https://mml-book.com)
+- A bilinear mapping $\langle\cdot,\cdot\rangle$ is:
+    - a mapping with two arguments, i.e. $\langle x,y\rangle$
+    - and is linear in each argument, e.g. for first argument
+    $$
+    \langle 2x+5y, z\rangle = 2\langle x,z\rangle + 5\langle y,z\rangle
+    $$
+- A (real) bilinear mapping that symmetric and positive definite is an <span class="highlight">inner product</span>.
+
+See Section 3.2 of https://mml-book.com
 
 ---
 
 # Kernels
 
-Sometimes we can calculate the similarity faster than we can create the feature vectors
+$$k(x,y) = \langle \Phi(x),\Phi(y)\rangle$$
 
-Asa Ben-Hur, Cheng Soon Ong, Sören Sonnenburg, Bernhard Schölkopf, and Gunnar Rätsch. Support vector machines and kernels for computational biology. PLoS Computational Biology 4(10), e1000173, 2008.
+- $\Phi: \mathcal{X}\rightarrow\mathbb{R}^d$ is called the "feature mapping"
+- $x$ does not need to be a vector, can be a DNA sequence!
+    (even though inner products expects vectors)
+- Sometimes we can calculate the similarity faster than we can create the feature vectors
 
+<span class="cite">Ben-Hur, et. al., Support vector machines and kernels for computational biology. PLoS Computational Biology 4(10), 2008.</span>
 
 ---
 
 # Spectrum kernel
 
+- the count of a particular k-mer in a sequence is a feature
+- I.e. feature map $\Phi_\mathrm{spectrum}$ is our counting method
+- Spectrum kernel:
+    $$k(x,y)_\mathrm{spectrum} = \langle \Phi_\mathrm{spectrum}(x),\Phi_\mathrm{spectrum}(y)\rangle$$
+- $\Phi_\mathrm{spectrum}$ has very few non-zeros,
+    and kernel can be computed in $\mathcal{O}(|x|+|y|)$.
 - weighted sum of kernels is a kernel
 - spectrum
 - mixed spectrum
 
 ---
 
-# The importance of position
+# Combining kernels
 
-Position weight matrices
+- <span class="highlight">weighted sum of kernels is a kernel</span>
+- Consider k-mers of multiple lengths
+- Can allow gaps and mismatches
+
+![bg right:60% 80%](figs-bio/roc-spectrum-kernel-gc3.jpg)
 
 ---
 
-# Weighted degree kernel
 
-Consider substrings at each positions separately
+
+# The importance of position
+
+![](figs-bio/sequence-logo-acceptor-splice-site-fig5.png)
+Sequence logo for acceptor splice sites
+
+- Splice sites have strong consensus sequences
+- almost very position is representative of the most frequently occuring nucleotide.
+
+![width:500px](figs-bio/acceptor2.jpg)
+
+
+---
+
+# Weighted Degree Kernel
+
+... compares two sequences by identifying the largest matching blocks which contribute depending on their length
+
+![](figs-bio/wd-kernel2.png)
+
+Equivalent to a mixture of spectrum kernels (up to order $k$) at
+every position for appropriately chosen weights.
+
+---
+
+# Weighted degree kernel with shifts
+
+... allows matching subsequences to be offset from each other
+
+![](figs-bio/wd-kernel-shift.png)
+
+<span class="cite">Ben-Hur, et. al., Support vector machines and kernels for computational biology. PLoS Computational Biology 4(10), 2008.</span>
 
 ---
 
 # Distances vs inner products
 
-- norm
-- $||x - y||$
+#### Intuition
+
+- distances = bigger number means things are different
+- kernels = bigger number means things are more similar
+
+#### Converting kernels to distances
+
+- Note that squared norms can be expressed as inner products
+- The (squared) distance between $x$ and $y$ is
+$$d^2(x,y) = ||x - y||^2 = k(x,x) + x(y,y) - 2k(x,y)$$
 
 ---
 
 # Convert distances to kernels
 
-- exp
+Try the exponential of the negative squared distance, 
+appropriately scaled.
+
+![height:280px](figs-bio/distances-to-kernels.png)
+
+<span class="cite">Schölkopf, Smola, Learning with kernels, 2002 </span>
 
 ---
 
 <!-- _class: lead -->
 # Natural language models
+## (2 slides)
 
 ---
 
 # k-mers and n-grams
+
+<span class="dna">GATTACAAAAA</span>
+
+<div class="small">
+
+| 2-mer | AA | AC | AG | AT | CA | CC | CG | CT | GA | GC | GG | GT | TA | TC | TG | TT |
+|:--|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+| count | 3 | 1 |  | 1 | 1 |  |  |  | 1 |  |  |  | 1 |  |  | 1 |
+
+</div>
+
+
+<div class="container">
+
+<div class="col">
+
+![height:300px](figs-bio/chargrams-ngrams.png)
+
+</div>
+<div class="col">
+
+https://phrasesinenglish.org
+
+</div>
+</div>
 
 ---
 
 # Embed = find a feature vector
 
 Some papers about language models applied to DNA
+
+<div class="cite">
+
+- BioSeq-BLM: a platform for analyzing DNA, RNA and protein sequences based on biological language models
+    https://doi.org/10.1093/nar/gkab829
+- The language of proteins: NLP, machine learning & protein sequences
+    https://doi.org/10.1016/j.csbj.2021.03.022
+- Biological structure and function emerge from scaling unsupervised learning to 250 million protein sequences
+    https://doi.org/10.1073/pnas.2016239118
+
+
+
+</div>
 
 ---
 

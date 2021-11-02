@@ -38,27 +38,18 @@ class: invert
 </style>
 
 
-# test slide
 
-- <span class="highlight">highlight</span>
-- <span class="cite">cite</span>
-- <span class="dna">dna</span>
-- <span class="footnote">footnote</span>
-
-
-
-
----
 <!-- _class: lead -->
 
 # High dimension low sample size
+## (for studying genomes)
 
 <span class="highlight">Cheng Soon</span> Ong
 
 
 ---
 
-# Why we will always have too many features
+## Why we will always have too many features
 
 ---
 
