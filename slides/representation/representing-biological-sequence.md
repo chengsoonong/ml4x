@@ -116,6 +116,7 @@ $$\mathbf{f} : \mathcal{X} \to \mathcal{Y}$$
 
 </div>
 
+Section 8.1 of mml-book.com
 
 
 ---
@@ -163,7 +164,18 @@ Gender ID | Degree | Latitude  |  Longitude  |  Age | Annual Salary |
 -1 | 3 | 51.5074 | 0.1275 | 47 | 123.543 |
 +1 | 1 | 51.5071 | 0.1278 | 26 | 23.989 |
 -1 | 1 | 51.5075 | 0.1281 | 68 | 138.769 |
-+1 | 2 | 51.5074 | 0.1278 | 33 | 113.888 |
+
+
+
+---
+
+# Representing biological sequences
+
+- A glimpse of biology
+- Use knowledge to design features
+- counting and hashing
+- kmers and spectrum kernels
+- language models
 
 
 ---
@@ -218,15 +230,6 @@ $$
 <!-- _class: lead -->
 
 # A glimpse of biology
-
----
-
-<!-- _class: default -->
-# Tree of life
-
-Eukaroyte, Bacteria, Archea (discovered in 1970s!)
-
-![](figs-bio/eukaryote-prokaryote.png)
 
 ---
 
@@ -302,23 +305,6 @@ A short video describing splicing https://youtu.be/aVgwr0QpYNE
 
 ---
 
-# What is the distribution of GC?
-
-- <span class="dna">A</span> pairs with <span class="dna">T</span> and <span class="dna">G</span> pairs with <span class="dna">C</span>
-- Look at GC content of introns vs exons
-
-
-![height:200px](figs-bio/jukes-cantor-dna-substitution.png) &emsp; &emsp; &emsp; &emsp; ![height:200px](figs-bio/gc-content-exon-intron.png)
-
-<div class="cite">
-
-Erickson, The Jukes-Cantor Model of Molecular Evolution, 2010
-Amit et. al. Differential GC content between exons and intron .., 2012
-
-</div>
-
----
-
 # k-mer
 
 Use the counts of substrings as a feature
@@ -343,7 +329,20 @@ Use the counts of substrings as a feature
 
 ---
 
+
 # On the importance of coordinates (I)
+
+- **Mapping**
+    - Longitude and latitude, for locations on Earth
+    - Right ascension and declination, for looking at the sky
+- **Image pixels**
+    - Object detection and semantic segmentation
+    - Simultaneous localization and mapping
+
+
+---
+
+# On the importance of coordinates (II)
 
 ### Basis functions
 
@@ -357,16 +356,6 @@ See Section 2.6 of mml-book.com
 
 ---
 
-# On the importance of coordinates (II)
-
-- **Mapping**
-    - Longitude and latitude, for locations on Earth
-    - Right ascension and declination, for looking at the sky
-- **Image pixels**
-    - Object detection and semantic segmentation
-    - Simultaneous localization and mapping
-
----
 
 # Coordinates in genomes
 
@@ -385,7 +374,7 @@ https://en.wikipedia.org/wiki/Alignment-free_sequence_analysis
 ---
 
 <!-- _class: lead -->
-# Comparing two sequences
+# Hashing and sketching
 
 
 ---
@@ -520,7 +509,7 @@ https://en.wikipedia.org/wiki/Alignment-free_sequence_analysis
 # kWIP: k-mer weighted inner product
 
 -  A hashed based k-mer counter and its inner product
--  Weighted inner product improves performance,\\ especially for low coverage
+-  Weighted inner product improves performance, especially for low coverage
 -  kWIP more accurate than Mash
 -  Improves replicate clustering (rice)
 -  Discovers population structure (Chalmydomonas)
@@ -665,7 +654,7 @@ every position for appropriately chosen weights.
 
 - Note that squared norms can be expressed as inner products
 - The (squared) distance between $x$ and $y$ is
-$$d^2(x,y) = ||x - y||^2 = k(x,x) + x(y,y) - 2k(x,y)$$
+$$d^2(x,y) = ||x - y||^2 = k(x,x) + k(y,y) - 2k(x,y)$$
 
 ---
 

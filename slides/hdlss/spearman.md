@@ -44,31 +44,61 @@ class: invert
 
 <span class="highlight">Cheng Soon</span> Ong
 
-
 ---
 
 ## Motivation: Genome wide association study
 
-- **Hypothesis testing** Given a case control study, test whether a particular SNP is associated with the phenotype.
-- **Epistatic Interactions**
-    -  Need to tabulate 125 billion contingency tables
-    -  Consider specificity and sensitivity
-    -  Gain over univariate ROC
-    -  CPU ($\approx$ days) and GPU ($\approx$ hours)
-    -  Store the top 1 million pairs
-  
-<span class="cite">Goudey,...,Ong,...,Kowalczyk, BMC Genomics, 2013</span>
+- **Hypothesis testing**
+    Given a case control study, test whether a particular SNP is associated with the phenotype.
+- **Hypothesis Testing**
+    - $\mathcal{H}_0$ vs $\mathcal{H}_1$
+    - Design test statistic and compute p-value
+    - Reject $\mathcal{H}_0$ if p-value $<~\alpha$.
+- **Multiple Testing Correction**
 
 ---
 
-- **Quote** about p-values
-    ... but a reliable method of procedure. In relation to the test of significance, we may say that a phenomenon is experimentally demonstrable when we know how to conduct an experiment which will rarely fail to give us a statistically significant result.
-    <span class="cite">Fisher, The Design of Experiments, 1947, p. 14</span>
+# Quantitative traits
+
+- When phenotype is a continuous value, $y_i$
+- encode genotype as a numerical value, $x_{ki}$
+- apply linear regression (e.g. Chapter 9 of mml-book.com)
+- For SNP $k$ and individual $i$,
+$$y_i = \theta_0 + \theta_k x_{ki} + \mathrm{noise~model}$$
+- Recall that the problem is underdetermined (big $p$, small $n$)
+
+<span class="cite">See lectures by Chloé-Agathe Azencott. http://cazencott.info</span>
 
 ---
 
-# Linear regression for feature selection
+# Epistatic interactions
 
+![bg right:50% 90%](figs-spearman/epistatic-interaction.jpg)
+
+A. No interaction, 
+    additive effect
+
+B. negative interaction
+
+C. positive interaction
+
+
+https://doi.org/10.1073/pnas.1308940110
+
+---
+
+# Epistatic interaction search
+
+- **Genome Wide Interaction Search (GWIS)**
+    Consider the association of all pairs of genotypes to phenotypes
+    * 5000 individuals, 500,000 SNPs
+    * Tabulate 125 billion contingency tables
+- **Classification based analysis**
+    * New statistical tests
+    * Gain over univariate ROC
+
+<span class="highlight">But we are only interested in significant associations</span>
+<span class="cite">Goudey et. al. BMC Genomics, 2013</span>
 
 
 ---
@@ -87,9 +117,24 @@ class: invert
 
 ---
 
+## Different ways to score a locus
+
+- p-value of a statistical test
+- effect size (e.g. odds ratio)
+- discount for linkage disequilibrium
+- enrichment for particular genes/cells of interest
+- conserved by evolution
+
+![bg right:40% 100%](figs-spearman/gwas-downstream.jpg)
+
+<span class="cite">Cano-Gamez, Trynka, From GWAS to Function ..., Front. Genet. 2020</span>
+
+---
+
+
 <!-- _class: lead -->
 
-# Use p-values as a score
+# Stability of scores
 
 
 ---
@@ -97,7 +142,7 @@ class: invert
 ## Modeling using Spearman's correlation
 
 - **Stability of feature selection**
-    How to measure overlap?
+    How to measure overlap of scores?
 - **Rank aggregation**
     How to combine different sources of information?
 
@@ -161,6 +206,22 @@ $$
 
 ---
 
+# Covariance and Correlation
+
+**How to capture the intuition of "spread"?**
+The <span class="highlight">covariance</span> between $x\in\mathbb{R}^D$ and $y\in\mathbb{R}^E$ is defined as
+$$
+    \mathrm{Cov}[x,y] = \mathbb{E}[xy^\top] - \mathbb{E}[x]\mathbb{E}[y]^\top .
+$$
+The normalized version of covariance is called <span class="highlight">correlation</span>
+$$
+    \mathrm{corr}[x,y] = \frac{\mathrm{Cov}[x,y]}{\sqrt{\mathbb{V}[x]\mathbb{V}[y]}}
+$$
+
+Section 6.4 of mml-book.com
+
+---
+
 # Spearman's $\rho$
 
   -  Similar to Pearson's correlation for the measure of dependence
@@ -191,6 +252,8 @@ $$
 - **Key observation**
     Any elements in list $A$ that do not appear in list $B$ must have
     a rank higher than the number of elements in $B$
+
+<span class="cite">Bedő, Ong, JMLR 17(201):1--30, 2016</span>
 
 ---
 
@@ -256,7 +319,6 @@ $$
 - **Other possible imputation approaches**
     - Optimistic
     - Worst case
-    - <span class="cite">Bedő, Rawlinson, Goudey, Ong, PLoS ONE, 2014</span>
 - **Multivariate Spearman's correlation**
     - Textbook Spearman's $\rho$ is for computing correlation between two ranks. We want to compute the correlation between multiple ranked lists.
 
@@ -264,11 +326,8 @@ $$
 
 <!-- _class: lead -->
 
-# Rank aggregation
+# How to compare more than 2 lists?
 
----
-
-## Motivation: combine sources of information
 
 ---
 
@@ -295,7 +354,7 @@ $$
 
 Much simpler in software:
 ![height:150px](figs-spearman/spearman-python.png)
-Can be even simpler ...
+Can be even simpler by taking the logarithm
 
 ---
 
@@ -348,9 +407,6 @@ Can be even simpler ...
 ---
 
 # Looking for biomarkers
-
-#### Linear regression
-- Sparse regularization
 
 #### Spearman's correlation
 -  Stability of scoring

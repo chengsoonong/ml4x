@@ -266,6 +266,12 @@ http://phylogenomics.blogspot.com.au/2015/10/evolution-of-dna-sequencing-talk-20
 
 ---
 
+![height:550px](figs-bio/2021_Sequencing_cost_per_Human_Genome.jpg)
+
+<span class="cite">www.genome.gov/sequencingcostsdata. Accessed 1 Nov 2021.</span>
+
+---
+
 # $1000 human genome
 
 <div class="container">
@@ -315,7 +321,7 @@ DNA sequences: 6 billion reads, each 150 bases, ~$\frac{1}{2}$TB
 - **Assembly**
     - reference genome vs de-novo vs pan-genome
     - Bridges of K\"onigsberg $\rightarrow$ de Bruijn graphs
-    http://www.nature.com/nmeth/journal/v9/n4/full/nmeth.1935.html
+    https://doi.org/10.1038/nmeth.1935
 
 
 ---
@@ -401,3 +407,15 @@ https://liorpachter.wordpress.com/seq/
 </div>
 </div>
 
+---
+
+## Opportunities and challenges 
+### ... in the sequencing revolution
+
+- **Gene finding**
+    - Information structures on genomes
+    - New understanding of molecular biology
+- **DNA sequencing is a new sensor**
+    - cheap (and getting cheaper)
+    - mobile platforms
+    - need to solve an inverse problem

@@ -41,19 +41,113 @@ class: invert
 
 <!-- _class: lead -->
 
-# High dimension low sample size
+# Statistical hypothesis testing
 ## (for studying genomes)
 
 <span class="highlight">Cheng Soon</span> Ong
+
+---
+
+## Data as vectors
+
+Gender ID | Degree | Latitude  |  Longitude  |  Age | Annual Salary |
+|:-------:|:-----------:|---------------:|------------:|-----:|--------------:|
+|  |   | (degrees) | (degrees) |  | (thousands) |
+-1 | 2 | 51.5073 | 0.1290 | 36 | 89.563 |
+-1 | 3 | 51.5074 | 0.1275 | 47 | 123.543 |
++1 | 1 | 51.5071 | 0.1278 | 26 | 23.989 |
+-1 | 1 | 51.5075 | 0.1281 | 68 | 138.769 |
++1 | 2 | 51.5074 | 0.1278 | 33 | 113.888 |
+
+---
+
+<!-- _class: default -->
+
+## Example of regression task
+
+<div class="container">
+
+<div class="colbig">
+
+- $\mathcal{X}$ = age, $\mathcal{Y}$ = salary
+- Data from example table (training data)
+- Interested in unobserved salary (e.g. $x=60$)
+
+</div>
+
+<div class="colsmall">
+
+![](figs-book/linear_regression_testpoint.png)
+
+</div>
+
+</div>
+
+Section 8.1 of mml-book.com
+
+---
+
+# Deep data / fat data / wide data
+#### High dimensional low sample size (big $p$, small $n$)
+
+![height:400px](figs-hypotest/deep-data.png)
 
 
 ---
 
 ## Why we will always have too many features
 
+<div class="container">
+
+<div class="col">
+
+- **Variation among individuals**
+    - ~1 million features, 1000 individuals
+    - sequencing is cheap
+- **Medical studies**
+    - rare diseases
+    - [PCAWG](https://dcc.icgc.org/pcawg/#!) 285GB per person
+    - hard to share data
+
+</div>
+<div class="col">
+
+- **Ecology**
+    - Rare species
+    - Hard to collect specimens
+- **Agriculture**
+    - Expensive to experiment
+    - Inbred lines
+- **Microbiology**
+    - Many undiscovered species
+    - Sensitive to conditions
+
+</div>
+</div>
+
 ---
 
-## Fundamental theorem of linear algebra
+# More features than examples
+
+A system of two equations and four unknowns
+$$
+\begin{bmatrix}
+1& 0& 8&-4\\
+0&1&2&12
+\end{bmatrix}
+
+\begin{bmatrix}
+x_1\\x_2\\x_3\\x_4
+\end{bmatrix}
+=
+\begin{bmatrix}
+42\\8
+\end{bmatrix}
+$$
+will in general have infinitely many solutions.
+
+Section 2.3 of mml-book.com
+
 
 
 ---
@@ -482,27 +576,3 @@ Suppose 800 of 500,000 variants are significant at 0.05 level.
 
 http://www.ong-home.my/download/notes-gwas-hypo-test.pdf
 
----
-
-# Epistatic Interactions (I)
-
-- **Genome Wide Interaction Search (GWIS)**
-    Consider the association of all pairs of genotypes to phenotypes
-- **Large search space**
-    * 5000 individuals, 500,000 SNPs
-    * Need to tabulate 125 billion contingency tables
-
-![bg right:30% 100%](figs-hypotest/online-mendelian-inheritance-man.png)
-
----
-
-# Epistatic Interactions (II)
-
-- **Classification based analysis**
-    * Focus on SNPs in case control studies
-    * New statistical tests
-    * Consider specificity and sensitivity
-    * Gain over univariate ROC
-    * CPU ($\approx$ days) and GPU ($\approx$ hours)
-
-<span class="cite">Goudey et. al. BMC Genomics, 2013</span>
